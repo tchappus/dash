@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import tjc.app.dash.service.GitHubService;
+import tjc.app.dash.service.WeatherService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.List;
 @Controller
 public class IndexController {
     private final GitHubService gitHubService;
+    private final WeatherService weatherService;
 
-    public IndexController(GitHubService gitHubService) {
+    public IndexController(GitHubService gitHubService, WeatherService weatherService) {
         this.gitHubService = gitHubService;
+        this.weatherService = weatherService;
     }
 
     @GetMapping("/")
@@ -39,6 +42,9 @@ public class IndexController {
 
         model.addAttribute("commitWeekDays", weekDays);
         model.addAttribute("commitRatio", commitRatio);
+
+        var weatherResponse = weatherService.fetchWeatherData();
+        model.addAttribute("temp", weatherResponse.data().timelines().get(0).intervals().get(0).values().temperature());
 
         return "index";
     }
