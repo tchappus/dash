@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<style>
+    .square {
+      height: 15px;
+      width: 15px;
+      border-radius: 2px;
+      border-width: 2px;
+      border-color: white;
+    }
+
+    .filled {
+        background-color: #3DD359;
+    }
+
+    .blank {
+        background-color: #161B22;
+    }
+
+    html {
+        background-color: #0D1117;
+        color: white;
+        font-family: sans-serif;
+    }
+
+
+    
+</style>
+
+<div>
+<h1>Commits</h1>
+<table>
+    <tr th:each="commitWeekDay : ${commitWeekDays}">
+        <span th:each="day : ${commitWeekDay}">
+            <td th:if="${day > 0}" class="filled square" th:style="'opacity:' + ${day * commitRatio} + '%'"></td>
+            <td th:if="${day <= 0}" class="blank square"></td>
+        </span>
+    </tr>
+</table>
+
+<h1>Temp</h1>
+<h2>{{.Temp}}</h2>
+</div>
